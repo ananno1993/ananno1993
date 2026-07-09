@@ -1,8 +1,6 @@
 # 💫 About Me:
 Hi, I’m S M Shaon, <br>a passionate Web Developer, SEO Expert, and Digital Marketer. <br>I enjoy building modern, responsive websites and scalable digital solutions that help businesses grow online. <br>I’m also the founder of RisonIT, a digital agency focused on web development, mobile apps, SEO, and online marketing.<br><br>I love learning new technologies, solving real-world problems, and turning ideas into functional products.
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=ananno1993&show_icons=true&theme=dark&count_private=true)
-
 ## 🌐 Socials:
 [![Facebook](https://img.shields.io/badge/Facebook-%231877F2.svg?logo=Facebook&logoColor=white)](https://facebook.com/https://www.facebook.com/anannorahman.shaon/) [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/https://instagram.com/amrserver) [![email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:smshaon.1993@gmail.com) 
 
