@@ -1,0 +1,74 @@
+name: Update Profile Stats & Cards
+
+on:
+  schedule:
+    # Runs daily at 00:00 UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create assets directory
+        run: mkdir -p assets
+
+      # 1. GitHub Stats Card (Includes private contributions & total commits)
+      - name: Generate GitHub Stats Card
+        uses: soulteary/github-readme-stats-action@v1
+        with:
+          card: stats
+          options: 'username=${{ github.repository_owner }}&theme=dark&hide_border=false&include_all_commits=true&count_private=true&show_icons=true'
+          path: assets/github-stats.svg
+          token: ${{ secrets.PROFILE_STATS_TOKEN || secrets.GITHUB_TOKEN }}
+
+      # 2. Top Languages Card (Includes private repos)
+      - name: Generate Top Languages Card
+        uses: soulteary/github-readme-stats-action@v1
+        with:
+          card: top-langs
+          options: 'username=${{ github.repository_owner }}&theme=dark&hide_border=false&layout=compact&count_private=true'
+          path: assets/top-langs.svg
+          token: ${{ secrets.PROFILE_STATS_TOKEN || secrets.GITHUB_TOKEN }}
+
+      # 3. Streak Stats Card (Includes private contributions)
+      - name: Generate Streak Stats Card
+        uses: DenverCoder1/github-readme-streak-stats@v1
+        with:
+          options: 'user=${{ github.repository_owner }}&theme=dark&hide_border=false'
+          path: assets/streak-stats.svg
+          token: ${{ secrets.PROFILE_STATS_TOKEN || secrets.GITHUB_TOKEN }}
+
+      # 4. GitHub Profile Trophies
+      - name: Generate GitHub Profile Trophies
+        uses: soulteary/github-profile-trophy-action@v1
+        with:
+          options: 'username=${{ github.repository_owner }}&theme=radical&no-frame=false&no-bg=false&margin-w=4'
+          path: assets/trophy.svg
+          token: ${{ secrets.PROFILE_STATS_TOKEN || secrets.GITHUB_TOKEN }}
+
+      # 5. Random Dev Quote (Cached daily SVG)
+      - name: Fetch Random Dev Quote SVG
+        run: |
+          curl -s "https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical" \
+            -H "Accept: image/svg+xml" \
+            -o assets/quote.svg || true
+
+      # 6. Commit and Push Updated SVGs
+      - name: Commit and push generated SVGs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/*.svg
+          if git diff --staged --quiet; then
+            echo "No changes in stats cards."
+          else
+            git commit -m "chore: update GitHub profile stats cards [skip ci]"
+            git push
+          fi
